@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サイトマップ | あさひな</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+body{
+    min-height:100vh;
+    margin:0;
+    padding:60px 26px;
+    background:linear-gradient(180deg,#ae9dd7,#8669b8);
+    color:#fff;
+    font-family:"Zen Maru Gothic",sans-serif;
+    line-height:1.9;
+}
+.wrapper{max-width:760px;margin:auto;}
+h1{text-align:center;margin:0 0 36px;font-size:2.2rem;}
+.site-list{display:grid;gap:16px;margin:0 0 36px;padding:0;list-style:none;}
+.site-list a,
+.site-list .current-page{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:58px;
+    padding:14px 22px;
+    border:1px solid rgba(255,255,255,.42);
+    border-radius:18px;
+    color:#171225;
+    font-weight:800;
+    text-decoration:none;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(255,255,255,.55), transparent 28%),
+        linear-gradient(135deg, rgba(255,255,255,.26), rgba(255,255,255,.09));
+    box-shadow:
+        0 12px 30px rgba(62,38,112,.22),
+        inset 0 1px 0 rgba(255,255,255,.62);
+    backdrop-filter:blur(18px) saturate(1.5);
+    -webkit-backdrop-filter:blur(18px) saturate(1.5);
+    transition:transform .18s ease,box-shadow .18s ease;
+}
+.site-list a:hover{transform:translateY(-2px) scale(1.015);}
+.site-list .current-page{
+    color:rgba(23,18,37,.68);
+    width:100%;
+    cursor:default;
+    font:inherit;
+}
+@media (min-width:961px){
+    body{padding:clamp(60px,8vh,96px) clamp(32px,5vw,80px);}
+    .wrapper{max-width:900px;}
+}
+@media (max-width:600px){
+    body{padding:32px 16px;}
+    h1{margin-bottom:26px;font-size:1.55rem;line-height:1.5;}
+    .site-list{gap:12px;margin-bottom:28px;}
+    .site-list a,
+    .site-list .current-page{min-height:54px;}
+}
+</style>
+</head>
+<body>
+<main class="wrapper">
+    <h1>サイトマップ</h1>
+    <nav aria-label="サイトマップ">
+        <ul class="site-list">
+            <li><a href="index.html">トップページ</a></li>
+            <li><a href="kurege-kinshirei.html">クレゲ禁止令</a></li>
+            <li><button class="current-page" type="button" disabled aria-current="page">サイトマップ（このページ）</button></li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>
