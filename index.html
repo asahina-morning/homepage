@@ -447,6 +447,113 @@ small{
     margin:0;
 }
 
+.page-actions{
+    display:flex;
+    justify-content:center;
+    margin:28px 0 44px;
+}
+
+/* タブレット・パソコンでは、画面幅に応じて余白と本文幅を広げる */
+@media (min-width:601px) and (max-width:960px){
+    body{
+        padding:48px clamp(28px,5vw,52px);
+    }
+
+    .wrapper{
+        max-width:700px;
+    }
+}
+
+@media (min-width:961px){
+    body{
+        padding:clamp(60px,8vh,96px) clamp(32px,5vw,80px);
+    }
+
+    .wrapper{
+        max-width:900px;
+    }
+
+    .profile-window,
+    pre[class*="language-"]{
+        max-width:640px;
+    }
+
+    .liquid-grass-card{
+        max-width:700px;
+    }
+
+    .liquid-sensitive-box{
+        max-width:740px;
+    }
+}
+
+/* スマートフォンでも読みやすい余白と文字サイズにする */
+@media (max-width:600px){
+    body{
+        padding:32px 16px;
+        line-height:1.75;
+    }
+
+    h1{
+        margin-bottom:28px;
+        font-size:1.55rem;
+        line-height:1.5;
+    }
+
+    h2{
+        margin:42px 0 16px;
+        padding-left:10px;
+        font-size:1.3rem;
+    }
+
+    h3{
+        font-size:1.1rem;
+    }
+
+    .profile-window{
+        margin:22px auto;
+        border-radius:14px;
+    }
+
+    .profile-window pre,
+    pre{
+        padding:14px !important;
+        font-size:12px;
+        overflow-x:auto;
+    }
+
+    .liquid-grass-card,
+    .liquid-age-gate{
+        padding:18px;
+        border-radius:26px;
+    }
+
+    .liquid-grass-title{
+        font-size:1.35rem;
+    }
+
+    .liquid-grass-buttons,
+    .liquid-age-actions{
+        flex-direction:column;
+        gap:12px;
+    }
+
+    .liquid-grass-button,
+    .liquid-age-button{
+        width:100%;
+        min-width:0;
+    }
+
+    .liquid-age-text{
+        font-size:14px;
+        line-height:1.8;
+    }
+
+    hr{
+        margin:40px 0;
+    }
+}
+
 </style>
 
 </head>
@@ -500,6 +607,10 @@ small{
 </span><br>
 <small>※リンクではありません。</small>
 </p>
+
+<div class="page-actions">
+    <a class="liquid-grass-button" href="kurege-kinshirei.html">クレゲ禁止令</a>
+</div>
 
 <hr>
 
@@ -665,9 +776,9 @@ small{
     </div>
 
 <pre><code class="language-json">{
-  "ちくにー.com": "契約満了 2026-07-19",
-  "うんこ.net": "契約満了 2026-07-19",
-  "nipple.blog": "契約満了 2026-07-19",
+  "ちくにー.com": "契約満了 2027-07-19",
+  "うんこ.net": "契約満了",
+  "nipple.blog": "契約満了",
   "ちくにー.online": "契約満了 2026-12-17",
   "うんこ.online": "契約満了 2026-12-17"
 }</code></pre>
@@ -696,6 +807,7 @@ small{
 </p>
 
 <div class="footer">
+<p><a href="sitemap.html">サイトマップ</a></p>
 © Asahina@Nipple Teasing All rights reserved.
 </div>
 
