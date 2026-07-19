@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>みゃいパソ タイピング練習 | あさひな</title>
+<style>
+:root{
+    --contest-blue:#aebde8;
+    --deep-blue:#10278d;
+    --button-blue:#3155c7;
+    --button-blue-hover:#2446b6;
+    --paper:#ffffff;
+    --page:#eee9e4;
+    --ink:#111111;
+    --muted:#5a6380;
+    --border:#727272;
+    --soft-border:#b9c2dc;
+    --danger:#b9303c;
+}
+*{box-sizing:border-box;}
+body{
+    min-height:100vh;
+    margin:0;
+    padding:0 20px 26px;
+    color:var(--ink);
+    background:var(--page);
+    font-family:"Noto Sans JP","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;
+}
+button,textarea{font:inherit;}
+button{appearance:none;border:0;cursor:pointer;}
+.contest-shell{
+    width:min(1080px,100%);
+    min-height:680px;
+    margin:0 auto;
+    background:var(--contest-blue);
+}
+.contest-header{
+    display:grid;
+    grid-template-columns:72px 1fr auto;
+    align-items:center;
+    gap:12px;
+    min-height:68px;
+    padding:10px 48px;
+    color:var(--deep-blue);
+}
+.contest-mark{
+    display:grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    border:4px solid #c94c3c;
+    color:#c94c3c;
+    font-size:1.25rem;
+    font-weight:900;
+    transform:rotate(-8deg);
+}
+h1{
+    margin:0;
+    font-size:clamp(1.1rem,2.5vw,1.55rem);
+    font-weight:900;
+    letter-spacing:.01em;
+}
+.guest-name{margin:0;font-size:.96rem;white-space:nowrap;}
+.event-strip{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:10px 48px;
+    border-top:1px solid rgba(16,39,141,.18);
+    border-bottom:1px solid rgba(16,39,141,.25);
+    color:var(--deep-blue);
+    font-weight:700;
+}
+.event-meta{display:flex;flex-wrap:wrap;gap:8px 24px;}
+.event-date{font-size:.9rem;font-weight:500;white-space:nowrap;}
+main{padding:32px 70px 22px;}
+.start-screen{
+    display:block;
+}
+.start-panel,.result-main,.score-panel{
+    border:1px solid var(--soft-border);
+    background:var(--paper);
+}
+.start-panel{
+    display:flex;
+    min-height:360px;
+    padding:44px;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+}
+.category-label{
+    margin:0 0 14px;
+    padding:5px 10px;
+    color:#fff;
+    background:#c5553f;
+    font-size:.78rem;
+    font-weight:700;
+}
+h2{margin:0;color:var(--deep-blue);font-size:clamp(1.4rem,3.6vw,2.2rem);line-height:1.5;}
+.start-button,.end-button,.retry-button{
+    min-height:50px;
+    padding:11px 28px;
+    color:#fff;
+    background:var(--button-blue);
+    font-weight:900;
+    letter-spacing:.08em;
+}
+.start-button{margin-top:30px;min-width:180px;}
+.start-button:hover,.end-button:hover,.retry-button:hover{background:var(--button-blue-hover);}
+.start-button:focus-visible,.end-button:focus-visible,.retry-button:focus-visible{outline:3px solid #fff;outline-offset:-6px;}
+.start-button:disabled{cursor:default;opacity:.6;}
+.result-main h3,.score-panel h3{margin:0 0 14px;color:var(--deep-blue);font-size:1rem;}
+.bonus-table,.grade-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.bonus-table th,.bonus-table td,.grade-table th,.grade-table td{padding:7px;border:1px solid #c7cddd;text-align:center;}
+.bonus-table th,.grade-table th{color:var(--deep-blue);background:#edf0fa;}
+.countdown-screen{
+    display:grid;
+    min-height:460px;
+    place-items:center;
+    border:1px solid rgba(16,39,141,.28);
+    background:#c4cef0;
+    text-align:center;
+}
+.countdown-label{margin:0;color:var(--deep-blue);font-size:1.05rem;font-weight:700;}
+.countdown-number{margin:6px 0;color:var(--deep-blue);font-size:clamp(5rem,18vw,10rem);font-weight:900;line-height:1;}
+.countdown-note{margin:0;color:#40518c;font-size:.9rem;}
+.practice-screen{padding-top:0;}
+.practice-area{max-width:920px;margin:0 auto;}
+.text-row{
+    display:grid;
+    grid-template-columns:38px minmax(0,1fr);
+    align-items:stretch;
+}
+.line-numbers{
+    display:grid;
+    grid-template-rows:repeat(11,1fr);
+    margin:0;
+    padding:7px 8px 7px 0;
+    color:#5c6380;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:.85rem;
+    line-height:1;
+    list-style:none;
+    text-align:right;
+}
+.line-numbers li{display:flex;align-items:center;justify-content:flex-end;}
+.contest-textarea{
+    display:block;
+    width:100%;
+    height:258px;
+    margin:0;
+    padding:7px 25px;
+    resize:none;
+    border:1px solid var(--border);
+    border-radius:0;
+    outline:none;
+    color:#000;
+    background:#fff;
+    font-family:"Yu Gothic","Yu Gothic UI",Meiryo,sans-serif;
+    font-size:1.08rem;
+    font-weight:500;
+    line-height:1.45;
+    letter-spacing:.015em;
+    white-space:pre-wrap;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    scrollbar-gutter:stable;
+}
+.source-text{overflow-y:auto;}
+.input-text:focus{border:2px solid var(--deep-blue);padding:6px 24px;}
+.input-text.is-invalid{border-color:var(--danger);}
+.box-gap{height:8px;}
+.practice-footer{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:24px;
+    padding:14px 0 0 38px;
+    color:#081a68;
+}
+.practice-status{display:grid;grid-template-columns:auto auto;gap:4px 28px;font-size:.91rem;}
+.practice-status strong{font-weight:700;}
+.end-button{min-width:170px;border:2px solid #fff;}
+.input-help{min-height:1.5em;margin:8px 0 0 38px;color:#344576;font-size:.78rem;}
+.input-help.is-error{color:var(--danger);font-weight:700;}
+.result-screen{padding-top:0;}
+.result-title{
+    margin:0 0 18px;
+    padding:13px 18px;
+    color:#fff;
+    background:var(--deep-blue);
+    font-size:1.25rem;
+}
+.result-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px;}
+.result-main,.score-panel{padding:20px;}
+.result-text{
+    max-height:365px;
+    margin:0;
+    padding:16px;
+    overflow:auto;
+    border:1px solid #8d8d8d;
+    background:#fff;
+    font-size:.88rem;
+    line-height:1.8;
+    white-space:pre-wrap;
+}
+.score-list{margin:0;padding:0;list-style:none;}
+.score-list li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dotted #aeb4c4;font-size:.88rem;}
+.score-list strong{color:var(--deep-blue);}
+.final-score{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0;padding:12px;color:#fff;background:var(--deep-blue);}
+.final-score strong{font-size:1.45rem;}
+.grade-note{margin:0;color:#137244;font-weight:900;text-align:center;}
+.finish-reason{margin:6px 0 0;color:#56617b;font-size:.78rem;text-align:center;}
+.result-actions{margin-top:18px;text-align:center;}
+.retry-button{min-width:190px;}
+.grading-details{
+    margin-top:24px;
+    padding:18px 20px;
+    border:1px solid var(--soft-border);
+    background:#fff;
+}
+.grading-details summary{cursor:pointer;color:var(--deep-blue);font-weight:900;}
+.grading-details p{font-size:.82rem;line-height:1.75;}
+.criteria-heading{margin:18px 0 8px;color:var(--deep-blue);font-size:.94rem;}
+.grade-table{margin-top:12px;}
+.site-footer{display:flex;justify-content:space-between;gap:18px;margin-top:22px;color:#2f438c;font-size:.78rem;}
+.site-footer a{color:#213da2;}
+[hidden]{display:none!important;}
+@media (max-width:800px){
+    body{padding:0;}
+    .contest-shell{min-height:100vh;}
+    .contest-header{grid-template-columns:48px 1fr;padding:10px 18px;}
+    .contest-mark{width:38px;height:38px;}
+    .guest-name{grid-column:2;}
+    .event-strip{align-items:flex-start;flex-direction:column;padding:10px 18px;}
+    main{padding:24px 16px;}
+    .result-layout{grid-template-columns:1fr;}
+    .start-panel{min-height:300px;padding:28px;}
+    .practice-footer{grid-template-columns:1fr;padding-left:38px;}
+    .end-button{width:100%;}
+    .contest-textarea{padding:7px 12px;font-size:.94rem;}
+    .input-text:focus{padding:6px 11px;}
+    .site-footer{flex-direction:column;}
+}
+@media (max-width:460px){
+    .contest-header{grid-template-columns:1fr;}
+    .contest-mark{display:none;}
+    .guest-name{grid-column:auto;}
+    .text-row{grid-template-columns:30px minmax(0,1fr);}
+    .contest-textarea{height:230px;font-size:.87rem;}
+    .practice-footer{padding-left:30px;}
+    .input-help{margin-left:30px;}
+    .practice-status{grid-template-columns:1fr;gap:4px;}
+}
+</style>
+</head>
+<body>
+<div class="contest-shell">
+    <header class="contest-header">
+        <div class="contest-mark" aria-hidden="true">M</div>
+        <h1>第222回 みゃいパソ秋季大会</h1>
+        <p class="guest-name">ユーザー名：ゲストさん</p>
+    </header>
+
+    <div class="event-strip">
+        <div class="event-meta">
+            <span>第６部　和文Ｂ　高校生</span>
+            <span>出題文字数：<span id="targetLengthDisplay"></span></span>
+        </div>
+        <time class="event-date" id="eventDate"></time>
+    </div>
+
+    <main>
+        <section class="start-screen" id="startScreen">
+            <div class="start-panel">
+                <p class="category-label">毎日架空社説</p>
+                <h2>前代未聞の乱発<br>言葉の重みを失わせるな</h2>
+                <button class="start-button" type="button" id="startButton">スタート</button>
+            </div>
+        </section>
+
+        <section class="countdown-screen" id="countdownScreen" hidden aria-live="assertive">
+            <div>
+                <p class="countdown-label">開始まで</p>
+                <p class="countdown-number" id="countdownNumber">5</p>
+                <p class="countdown-note">まもなく入力画面に切り替わります</p>
+            </div>
+        </section>
+
+        <section class="practice-screen" id="practiceScreen" hidden>
+            <div class="practice-area">
+                <div class="text-row">
+                    <ol class="line-numbers" aria-hidden="true">
+                        <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li>
+                    </ol>
+                    <textarea class="contest-textarea source-text" id="sourceText" wrap="soft" readonly aria-label="課題文"></textarea>
+                </div>
+
+                <div class="box-gap"></div>
+
+                <div class="text-row">
+                    <ol class="line-numbers" aria-hidden="true">
+                        <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>11</li>
+                    </ol>
+                    <textarea class="contest-textarea input-text" id="typingInput" wrap="soft" maxlength="1200" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-describedby="inputHelp" aria-label="入力欄"></textarea>
+                </div>
+
+                <p class="input-help" id="inputHelp" aria-live="polite">課題文を先頭から入力してください。コピー・貼り付けは使えません。</p>
+
+                <footer class="practice-footer">
+                    <div class="practice-status">
+                        <span>第６部　和文Ｂ　高校生</span>
+                        <span>入力文字数　<strong id="typedCount">0</strong>字</span>
+                        <span>経過時間　<strong id="elapsedTime">0分00秒</strong></span>
+                        <span>残り時間　<strong id="remainingTime">5分00秒</strong></span>
+                    </div>
+                    <button class="end-button" type="button" id="endButton">おわる</button>
+                </footer>
+            </div>
+        </section>
+
+        <section class="result-screen" id="resultScreen" hidden aria-live="polite">
+            <h2 class="result-title" id="resultTitle">採点結果</h2>
+            <div class="result-layout">
+                <section class="result-main">
+                    <h3>入力した文章</h3>
+                    <p class="result-text" id="resultText"></p>
+                </section>
+                <aside class="score-panel">
+                    <h3>成績</h3>
+                    <ul class="score-list">
+                        <li><span>正解数</span><strong id="resultCorrect">0字</strong></li>
+                        <li><span>ミスカウント</span><strong id="resultMisses">0字</strong></li>
+                        <li><span>誤字</span><strong id="resultSubstitutions">0字</strong></li>
+                        <li><span>余字</span><strong id="resultInsertions">0字</strong></li>
+                        <li><span>脱字</span><strong id="resultDeletions">0字</strong></li>
+                        <li><span>特別点</span><strong id="resultBonus">0点</strong></li>
+                        <li><span>所要時間</span><strong id="resultTime">0分00秒</strong></li>
+                    </ul>
+                    <div class="final-score"><span>得　点</span><strong id="resultScore">0点</strong></div>
+                    <p class="grade-note" id="gradeNote"></p>
+                    <p class="finish-reason" id="finishReason"></p>
+                </aside>
+            </div>
+            <div class="result-actions"><button class="retry-button" type="button" id="retryButton">もう一度練習</button></div>
+        </section>
+
+        <details class="grading-details" id="gradingDetails">
+            <summary>採点・級認定の基準を見る</summary>
+            <h3 class="criteria-heading">特別点</h3>
+            <p>ミスカウントの少ない場合は、正解数に応じた特別点を加算します。小数点以下は切り上げです。</p>
+            <table class="bonus-table">
+                <thead><tr><th>ミス</th><th>特別点</th></tr></thead>
+                <tbody>
+                    <tr><td>0字</td><td>正解数の20%</td></tr>
+                    <tr><td>1字</td><td>正解数の15%</td></tr>
+                    <tr><td>2字</td><td>正解数の10%</td></tr>
+                    <tr><td>3字</td><td>正解数の5%</td></tr>
+                </tbody>
+            </table>
+            <h3 class="criteria-heading">得点と級認定</h3>
+            <p>得点 ＝ 正解文字数 − ミスカウント ＋ 特別点。ミスカウントが9文字以上の場合は、得点にかかわらず10級ーBから10級ーEのいずれかになります。</p>
+            <table class="grade-table">
+                <tbody>
+                    <tr><th>1級</th><td>625点</td><th>準1級</th><td>395点</td><th>2級</th><td>300点</td><th>準2級</th><td>245点</td></tr>
+                    <tr><th>3級</th><td>200点</td><th>4級</th><td>188点</td><th>5級</th><td>175点</td><th>6級</th><td>162点</td></tr>
+                    <tr><th>7級</th><td>150点</td><th>8級</th><td>135点</td><th>9級</th><td>122点</td><th>10級</th><td>109点</td></tr>
+                    <tr><th>10級ーB</th><td>92点</td><th>10級ーC</th><td>70点</td><th>10級ーD</th><td>45点</td><th>10級ーE</th><td>45点未満</td></tr>
+                </tbody>
+            </table>
+        </details>
+
+        <footer class="site-footer">
+            <a href="index.html">あさひなちゃんのホームページへ戻る</a>
+        </footer>
+    </main>
+</div>
+
+<script>
+const targetText = [
+    '社説：前代未聞の乱発　言葉の重みを失わせるな',
+    '「前代未聞」である。',
+    '　学年主任の某ｓ氏は先日、「今年の流行語大賞は「前代未聞」になりそうだ」と語ったという。生徒たちの間で流行しているからではない。某ｓ氏自身が、学年内で起きる出来事を表現するために、この言葉をあまりにも多く使っているためである。',
+    '　本来、前代未聞とは、これまで一度も聞いたことがないほど異例な事態を指す。ところが、学校では昨日も前代未聞、今日も前代未聞、恐らく明日も前代未聞である。これでは異例が日常となり、「前代未聞の通常営業」という矛盾した状態に陥りかねない。',
+    '　もちろん、生徒にも省みるべき点はあるだろう。しかし、あらゆる問題を強い言葉で一括りにすれば、何が本当に重大なのか理解らなくなる。言葉のインフレーションである。',
+    '「前代未聞」と繰り返すだけでは、問題の原因も解決策も見えてこない。なぜその出来事が起きたのか。学校側の指導や環境に改善すべき点はなかったのか。冷静に検証する姿勢が求められる。',
+    '　このままでは、今年の学年流行語大賞が「前代未聞」になる可能性さえある。それ自体が前代未聞だと某ｓ氏が語れば、もはや言葉は完全な永久機関となる。',
+    '　異例という札を貼る前に、生徒一人一人の事情に目を向けるべきだ。前代未聞を連呼する学年運営こそ、本当に前代未聞ではないのか。'
+].join('\n');
+
+const targetLength = Array.from(targetText).length;
+const timeLimitSeconds = 5 * 60;
+const elements = {
+    eventDate: document.getElementById('eventDate'),
+    targetLengthDisplay: document.getElementById('targetLengthDisplay'),
+    startScreen: document.getElementById('startScreen'),
+    countdownScreen: document.getElementById('countdownScreen'),
+    practiceScreen: document.getElementById('practiceScreen'),
+    resultScreen: document.getElementById('resultScreen'),
+    gradingDetails: document.getElementById('gradingDetails'),
+    startButton: document.getElementById('startButton'),
+    countdownNumber: document.getElementById('countdownNumber'),
+    sourceText: document.getElementById('sourceText'),
+    typingInput: document.getElementById('typingInput'),
+    inputHelp: document.getElementById('inputHelp'),
+    typedCount: document.getElementById('typedCount'),
+    elapsedTime: document.getElementById('elapsedTime'),
+    remainingTime: document.getElementById('remainingTime'),
+    endButton: document.getElementById('endButton'),
+    resultTitle: document.getElementById('resultTitle'),
+    resultText: document.getElementById('resultText'),
+    resultCorrect: document.getElementById('resultCorrect'),
+    resultMisses: document.getElementById('resultMisses'),
+    resultSubstitutions: document.getElementById('resultSubstitutions'),
+    resultInsertions: document.getElementById('resultInsertions'),
+    resultDeletions: document.getElementById('resultDeletions'),
+    resultBonus: document.getElementById('resultBonus'),
+    resultTime: document.getElementById('resultTime'),
+    resultScore: document.getElementById('resultScore'),
+    gradeNote: document.getElementById('gradeNote'),
+    finishReason: document.getElementById('finishReason'),
+    retryButton: document.getElementById('retryButton')
+};
+
+let startedAt = 0;
+let elapsedSeconds = 0;
+let timerId = null;
+let countdownId = null;
+let finished = false;
+let scrollFrameId = null;
+
+function formatDate(date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}年${month}月${day}日`;
+}
+
+function formatTime(seconds){
+    const minutes = Math.floor(seconds / 60);
+    const remainder = String(seconds % 60).padStart(2, '0');
+    return `${minutes}分${remainder}秒`;
+}
+
+function getBonus(correct, mistakes){
+    const rates = {0:.20, 1:.15, 2:.10, 3:.05};
+    return Object.prototype.hasOwnProperty.call(rates, mistakes) ? Math.ceil(correct * rates[mistakes]) : 0;
+}
+
+function getRank(score, mistakes){
+    if(mistakes >= 9){
+        if(score >= 92) return '10級ーB';
+        if(score >= 70) return '10級ーC';
+        if(score >= 45) return '10級ーD';
+        return '10級ーE';
+    }
+
+    const standards = [
+        ['1級',625], ['準1級',395], ['2級',300], ['準2級',245], ['3級',200],
+        ['4級',188], ['5級',175], ['6級',162], ['7級',150], ['8級',135],
+        ['9級',122], ['10級',109], ['10級ーB',92], ['10級ーC',70], ['10級ーD',45]
+    ];
+    const match = standards.find(item => score >= item[1]);
+    return match ? match[0] : '10級ーE';
+}
+
+function compareTexts(expectedText, actualText){
+    const expected = Array.from(expectedText);
+    const actual = Array.from(actualText.replace(/\r/g, ''));
+    const rows = expected.length + 1;
+    const columns = actual.length + 1;
+    const matrix = Array.from({length:rows}, () => new Uint16Array(columns));
+
+    for(let row = 0; row < rows; row += 1) matrix[row][0] = row;
+    for(let column = 0; column < columns; column += 1) matrix[0][column] = column;
+
+    for(let row = 1; row < rows; row += 1){
+        for(let column = 1; column < columns; column += 1){
+            if(expected[row - 1] === actual[column - 1]){
+                matrix[row][column] = matrix[row - 1][column - 1];
+            }else{
+                matrix[row][column] = Math.min(
+                    matrix[row - 1][column - 1] + 1,
+                    matrix[row][column - 1] + 1,
+                    matrix[row - 1][column] + 1
+                );
+            }
+        }
+    }
+
+    let row = 0;
+    let column = actual.length;
+    let bestDistance = matrix[0][column];
+
+    for(let candidateRow = 1; candidateRow <= expected.length; candidateRow += 1){
+        const candidateDistance = matrix[candidateRow][column];
+        if(candidateDistance < bestDistance || (candidateDistance === bestDistance && candidateRow > row)){
+            row = candidateRow;
+            bestDistance = candidateDistance;
+        }
+    }
+
+    let correct = 0;
+    let substitutions = 0;
+    let insertions = 0;
+    let deletions = 0;
+
+    while(row > 0 || column > 0){
+        if(row > 0 && column > 0 && expected[row - 1] === actual[column - 1] && matrix[row][column] === matrix[row - 1][column - 1]){
+            correct += 1;
+            row -= 1;
+            column -= 1;
+        }else if(row > 0 && column > 0 && matrix[row][column] === matrix[row - 1][column - 1] + 1){
+            substitutions += 1;
+            row -= 1;
+            column -= 1;
+        }else if(column > 0 && matrix[row][column] === matrix[row][column - 1] + 1){
+            insertions += 1;
+            column -= 1;
+        }else{
+            deletions += 1;
+            row -= 1;
+        }
+    }
+
+    return {
+        correct,
+        substitutions,
+        insertions,
+        deletions,
+        mistakes:substitutions + insertions + deletions
+    };
+}
+
+function getCaretVisualLine(textarea){
+    const style = window.getComputedStyle(textarea);
+    const lineHeight = Number.parseFloat(style.lineHeight);
+    const paddingTop = Number.parseFloat(style.paddingTop);
+    const mirror = document.createElement('div');
+    const marker = document.createElement('span');
+
+    Object.assign(mirror.style, {
+        position:'absolute',
+        left:'-100000px',
+        top:'0',
+        visibility:'hidden',
+        width:`${textarea.clientWidth}px`,
+        padding:style.padding,
+        border:'0',
+        boxSizing:'border-box',
+        fontFamily:style.fontFamily,
+        fontSize:style.fontSize,
+        fontWeight:style.fontWeight,
+        fontStyle:style.fontStyle,
+        letterSpacing:style.letterSpacing,
+        lineHeight:style.lineHeight,
+        whiteSpace:'pre-wrap',
+        overflowWrap:'anywhere',
+        wordBreak:'normal'
+    });
+
+    mirror.textContent = textarea.value.slice(0, textarea.selectionStart);
+    marker.textContent = '\u200b';
+    mirror.appendChild(marker);
+    document.body.appendChild(mirror);
+    const visualLine = Math.max(1, Math.round((marker.offsetTop - paddingTop) / lineHeight) + 1);
+    mirror.remove();
+    return visualLine;
+}
+
+function syncScrollWithCaret(){
+    scrollFrameId = null;
+    if(elements.practiceScreen.hidden) return;
+    const currentLine = getCaretVisualLine(elements.typingInput);
+    const lineHeight = Number.parseFloat(window.getComputedStyle(elements.typingInput).lineHeight);
+    const inputScrollLines = Math.max(0, currentLine - 6);
+    const sourceScrollLines = Math.max(0, currentLine - 8);
+    elements.typingInput.scrollTop = inputScrollLines * lineHeight;
+    elements.sourceText.scrollTop = sourceScrollLines * lineHeight;
+}
+
+function scheduleScrollSync(){
+    if(scrollFrameId !== null) window.cancelAnimationFrame(scrollFrameId);
+    scrollFrameId = window.requestAnimationFrame(syncScrollWithCaret);
+}
+
+function resetToStart(){
+    clearInterval(timerId);
+    clearInterval(countdownId);
+    timerId = null;
+    countdownId = null;
+    startedAt = 0;
+    elapsedSeconds = 0;
+    finished = false;
+    elements.typingInput.value = '';
+    elements.typingInput.disabled = false;
+    elements.startButton.disabled = false;
+    elements.sourceText.value = targetText;
+    elements.sourceText.scrollTop = 0;
+    elements.typingInput.scrollTop = 0;
+    elements.typedCount.textContent = '0';
+    elements.elapsedTime.textContent = formatTime(0);
+    elements.remainingTime.textContent = formatTime(timeLimitSeconds);
+    elements.inputHelp.textContent = '課題文を先頭から入力してください。コピー・貼り付けは使えません。';
+    elements.inputHelp.classList.remove('is-error');
+    elements.startScreen.hidden = false;
+    elements.countdownScreen.hidden = true;
+    elements.practiceScreen.hidden = true;
+    elements.resultScreen.hidden = true;
+    elements.gradingDetails.hidden = false;
+}
+
+function beginCountdown(){
+    elements.startButton.disabled = true;
+    elements.startScreen.hidden = true;
+    elements.gradingDetails.hidden = true;
+    elements.countdownScreen.hidden = false;
+    let count = 5;
+    elements.countdownNumber.textContent = count;
+
+    countdownId = window.setInterval(() => {
+        count -= 1;
+        if(count > 0){
+            elements.countdownNumber.textContent = count;
+            return;
+        }
+        clearInterval(countdownId);
+        countdownId = null;
+        startPractice();
+    }, 1000);
+}
+
+function startPractice(){
+    elements.countdownScreen.hidden = true;
+    elements.practiceScreen.hidden = false;
+    startedAt = Date.now();
+    updateTimer();
+    timerId = window.setInterval(updateTimer, 250);
+    elements.typingInput.focus();
+    scheduleScrollSync();
+}
+
+function updateTimer(){
+    if(!startedAt || finished) return;
+    elapsedSeconds = Math.min(timeLimitSeconds, Math.floor((Date.now() - startedAt) / 1000));
+    const remainingSeconds = Math.max(0, timeLimitSeconds - elapsedSeconds);
+    elements.elapsedTime.textContent = formatTime(elapsedSeconds);
+    elements.remainingTime.textContent = formatTime(remainingSeconds);
+    if(remainingSeconds === 0) finishPractice('time');
+}
+
+function finishPractice(reason){
+    if(finished) return;
+    finished = true;
+    clearInterval(timerId);
+    timerId = null;
+    if(startedAt){
+        elapsedSeconds = Math.min(timeLimitSeconds, Math.floor((Date.now() - startedAt) / 1000));
+    }
+    elements.typingInput.disabled = true;
+
+    const typedText = elements.typingInput.value.replace(/\r/g, '');
+    const comparison = compareTexts(targetText, typedText);
+    const bonus = getBonus(comparison.correct, comparison.mistakes);
+    const score = comparison.correct - comparison.mistakes + bonus;
+    const rank = getRank(score, comparison.mistakes);
+
+    elements.resultTitle.textContent = `${rank} 相当`;
+    elements.resultText.textContent = typedText || '（入力なし）';
+    elements.resultCorrect.textContent = `${comparison.correct}字`;
+    elements.resultMisses.textContent = `${comparison.mistakes}字`;
+    elements.resultSubstitutions.textContent = `${comparison.substitutions}字`;
+    elements.resultInsertions.textContent = `${comparison.insertions}字`;
+    elements.resultDeletions.textContent = `${comparison.deletions}字`;
+    elements.resultBonus.textContent = `${bonus}点`;
+    elements.resultTime.textContent = formatTime(elapsedSeconds);
+    elements.resultScore.textContent = `${score}点`;
+    elements.gradeNote.textContent = `${rank} に相当します。`;
+    elements.finishReason.textContent = reason === 'time' ? '5分が経過したため終了しました。' : '「おわる」ボタンで途中終了しました。';
+
+    elements.practiceScreen.hidden = true;
+    elements.resultScreen.hidden = false;
+    elements.gradingDetails.hidden = false;
+    elements.resultScreen.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+elements.startButton.addEventListener('click', beginCountdown);
+elements.endButton.addEventListener('click', () => finishPractice('manual'));
+elements.retryButton.addEventListener('click', () => {
+    resetToStart();
+    window.scrollTo({top:0, behavior:'smooth'});
+});
+elements.typingInput.addEventListener('input', () => {
+    const count = Array.from(elements.typingInput.value.replace(/\r/g, '')).length;
+    elements.typedCount.textContent = count;
+    scheduleScrollSync();
+});
+elements.typingInput.addEventListener('keyup', scheduleScrollSync);
+elements.typingInput.addEventListener('click', scheduleScrollSync);
+elements.typingInput.addEventListener('select', scheduleScrollSync);
+elements.typingInput.addEventListener('paste', event => {
+    event.preventDefault();
+    elements.inputHelp.textContent = '貼り付けは使えません。キーボードで入力してください。';
+    elements.inputHelp.classList.add('is-error');
+});
+elements.typingInput.addEventListener('drop', event => {
+    event.preventDefault();
+    elements.inputHelp.textContent = 'ドラッグ＆ドロップは使えません。キーボードで入力してください。';
+    elements.inputHelp.classList.add('is-error');
+});
+elements.sourceText.addEventListener('copy', event => {
+    event.preventDefault();
+});
+window.addEventListener('resize', scheduleScrollSync);
+
+elements.eventDate.textContent = formatDate(new Date());
+elements.targetLengthDisplay.textContent = targetLength;
+resetToStart();
+</script>
+</body>
+</html>
