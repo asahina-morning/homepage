@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="site-icon.png">
+<link rel="apple-touch-icon" href="site-icon.png">
 
 <title>あさひな</title>
 
@@ -70,7 +72,10 @@
 
 body{
     margin:0;
-    padding:60px 26px;
+    min-height:100vh;
+    max-width:100%;
+    overflow-x:hidden;
+    padding:clamp(32px,6vw,72px) clamp(16px,4vw,48px);
     background:linear-gradient(180deg,#ae9dd7,#8669b8);
     color:#fff;
     font-family:"Zen Maru Gothic",sans-serif;
@@ -78,14 +83,14 @@ body{
 }
 
 .wrapper{
-    max-width:760px;
+    width:min(100%,900px);
     margin:auto;
 }
 
 h1{
     text-align:center;
     margin:0 0 45px;
-    font-size:2.2rem;
+    font-size:clamp(1.55rem,3.6vw,2.35rem);
 }
 
 h2{
@@ -414,17 +419,12 @@ small{
     padding:20px 22px;
     border-radius:34px;
     color:#1e1830;
-    background:
-        radial-gradient(circle at 15% 10%, rgba(255,255,255,.58), transparent 30%),
-        radial-gradient(circle at 85% 90%, rgba(198,255,228,.30), transparent 36%),
-        linear-gradient(135deg, rgba(255,255,255,.28), rgba(255,255,255,.10));
-    border:1px solid rgba(255,255,255,.44);
-    box-shadow:
-        0 18px 48px rgba(43,23,84,.28),
-        inset 0 1px 0 rgba(255,255,255,.68),
-        inset 0 -18px 40px rgba(90,58,150,.14);
-    backdrop-filter:blur(24px) saturate(1.6);
-    -webkit-backdrop-filter:blur(24px) saturate(1.6);
+    background:rgba(74,51,121,.20);
+    border:1px solid rgba(53,32,91,.30);
+    box-shadow:none;
+    text-shadow:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
     text-align:center;
     font-weight:800;
 }
@@ -546,6 +546,144 @@ small{
     }
 }
 
+/* タブレット：縦向き */
+@media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
+    body{padding:48px clamp(32px,6vw,64px);}
+    .wrapper{max-width:820px;}
+    .profile-window,
+    pre[class*="language-"]{max-width:680px;}
+    .liquid-grass-card{max-width:720px;}
+    .liquid-sensitive-box{max-width:760px;}
+}
+
+/* タブレット：横向き */
+@media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
+    body{padding:36px clamp(40px,7vw,84px);}
+    .wrapper{max-width:1040px;}
+    .profile-window,
+    pre[class*="language-"]{max-width:700px;}
+    .liquid-grass-card{max-width:760px;}
+    .liquid-sensitive-box{max-width:820px;}
+    h1{margin-bottom:34px;}
+    h2{margin-top:48px;}
+    hr{margin:40px 0;}
+}
+
+/* パソコン */
+@media (min-width:1200px){
+    body{padding:clamp(56px,7vh,96px) clamp(64px,9vw,160px);}
+    .wrapper{max-width:1040px;}
+    .profile-window,
+    pre[class*="language-"]{max-width:700px;}
+    .liquid-grass-card{max-width:760px;}
+    .liquid-sensitive-box{max-width:820px;}
+}
+
+@media (min-width:1200px) and (orientation:portrait){
+    .wrapper{max-width:920px;}
+    .profile-window,
+    pre[class*="language-"]{max-width:680px;}
+    .liquid-grass-card{max-width:740px;}
+    .liquid-sensitive-box{max-width:800px;}
+}
+
+@media (min-width:1200px) and (orientation:landscape){
+    .wrapper{max-width:1120px;}
+    .profile-window,
+    pre[class*="language-"]{max-width:720px;}
+    .liquid-grass-card{max-width:800px;}
+    .liquid-sensitive-box{max-width:860px;}
+}
+
+/* 高さの低い横画面では縦方向を詰める */
+@media (min-width:768px) and (orientation:landscape) and (max-height:760px){
+    body{padding-top:28px;padding-bottom:28px;}
+    h1{margin-bottom:28px;}
+    h2{margin-top:40px;}
+    hr{margin:34px 0;}
+}
+
+/* 非表示メッセージは「クレゲ禁止令」ボタンと同じ外観 */
+.liquid-hidden-message{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:fit-content;
+    max-width:100%;
+    min-height:52px;
+    margin:0 auto;
+    padding:13px 24px;
+    overflow:visible;
+    border-radius:9999px;
+    color:#171225;
+    background:linear-gradient(135deg, rgba(255,255,255,.34), rgba(255,255,255,.12));
+    border:1px solid rgba(255,255,255,.48);
+    box-shadow:0 12px 30px rgba(62,38,112,.25), inset 0 -10px 24px rgba(111,76,180,.18);
+    text-align:center;
+    text-shadow:none;
+    font-weight:800;
+    letter-spacing:.03em;
+    backdrop-filter:blur(18px) saturate(1.6);
+    -webkit-backdrop-filter:blur(18px) saturate(1.6);
+}
+
+.hero-lead{text-align:center;}
+.feature-grid{display:grid;align-items:start;gap:28px;margin:0;}
+.feature-grid > .liquid-grass-card,
+.feature-grid > .liquid-sensitive-box{width:100%;height:auto;align-self:start;margin:0;}
+.info-grid{display:grid;gap:24px;margin:0;}
+.info-panel{
+    min-width:0;
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+}
+.info-panel h2:first-child{margin-top:0;}
+.info-panel .profile-window{width:100%;max-width:none;margin:22px 0;}
+
+/* 横画面は単一列をやめ、画面幅いっぱいに複数列で配置 */
+@media (min-width:768px) and (orientation:landscape){
+    body{padding:22px 24px;line-height:1.75;}
+    .wrapper{width:100%;max-width:none;}
+    .hero-section{
+        display:grid;
+        grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr);
+        align-items:center;
+        gap:clamp(28px,5vw,80px);
+    }
+    .hero-primary h1{text-align:left;margin-bottom:22px;}
+    .hero-lead{text-align:left;}
+    .hero-copy .page-actions{justify-content:flex-start;margin:22px 0 0;}
+    .hero-profile{width:100%;max-width:none;margin:0;}
+    .hero-profile pre[class*="language-"]{max-width:none;}
+    .section-divider{margin:28px 0;}
+    .feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,42px);}
+    .feature-grid > .liquid-grass-card,
+    .feature-grid > .liquid-sensitive-box{max-width:none;}
+    .feature-grid .profile-window,
+    .feature-grid pre[class*="language-"]{max-width:none;}
+    .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .info-panel-links{grid-column:1 / -1;}
+    .footer{margin-top:34px;}
+}
+
+@media (min-width:1200px) and (orientation:landscape){
+    body{padding:28px clamp(28px,3vw,56px);}
+    .hero-section{grid-template-columns:minmax(360px,.8fr) minmax(520px,1.2fr);}
+    .info-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .info-panel-links{grid-column:auto;}
+}
+
+@media (min-width:1200px) and (orientation:portrait){
+    .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .info-panel-links{grid-column:1 / -1;}
+}
+
+@media (max-width:600px){
+    .liquid-hidden-message{width:100%;min-height:52px;padding:13px 18px;}
+}
+
 </style>
 
 </head>
@@ -554,22 +692,20 @@ small{
 
 <div class="wrapper">
 
-<h1>
-    あさひなちゃんのホームページ<br>
-    工事中 / 仮ページ
-</h1>
+<header class="hero-section">
+    <div class="hero-primary">
+        <h1>
+            あさひなちゃんのホームページ<br>
+            工事中 / 仮ページ
+        </h1>
 
-<p align="center">
-そのうちちゃんと作る。たぶん。
-</p>
-
-<div class="profile-window" aria-label="profile.json">
-    <div class="profile-window-bar">
-        <span class="profile-window-dot red"></span>
-        <span class="profile-window-dot yellow"></span>
-        <span class="profile-window-dot green"></span>
-        <span class="profile-window-title">profile.json</span>
-    </div>
+        <div class="profile-window hero-profile" aria-label="profile.json">
+            <div class="profile-window-bar">
+                <span class="profile-window-dot red"></span>
+                <span class="profile-window-dot yellow"></span>
+                <span class="profile-window-dot green"></span>
+                <span class="profile-window-title">profile.json</span>
+            </div>
 
 <pre><code class="language-json">{
   "namae": "あさひな",
@@ -578,33 +714,34 @@ small{
   "nenrei": "204 No Content",
   "hitokoto": "乳首で失神とか潮吹きとかしたい"
 }</code></pre>
-</div>
+        </div>
+    </div>
 
-<p>
-同人音声製作（休止中）<br>
-太丸フォント制作中（進捗度：Null） ※計算中
-</p>
+    <div class="hero-copy">
+        <p class="hero-lead">そのうちちゃんと作る。たぶん。</p>
 
-<p>
-誕生日：東雲つむぎ（神無月２７）
-</p>
+        <p>
+        同人音声製作（休止中）<br>
+        太丸フォント制作中（進捗度：Null） ※計算中
+        </p>
 
-<p>
-いのはらこぼしみたいに生きたい。
-</p>
+        <p>誕生日：東雲つむぎ（神無月２７）</p>
+        <p>いのはらこぼしみたいに生きたい。</p>
 
-<p>
-<span class="fake-link">
-#おしっこに性的絶頂を伴う謎の疾患がある人と繋がりたい
-</span><br>
-<small>※リンクではありません。</small>
-</p>
+        <p>
+        <span class="fake-link">#おしっこに性的絶頂を伴う謎の疾患がある人と繋がりたい</span><br>
+        <small>※リンクではありません。</small>
+        </p>
 
-<div class="page-actions">
-    <a class="liquid-grass-button" href="kurege-kinshirei.html">クレゲ禁止令</a>
-</div>
+        <div class="page-actions">
+            <a class="liquid-grass-button" href="kurege-kinshirei.html">クレゲ禁止令</a>
+        </div>
+    </div>
+</header>
 
-<hr>
+<hr class="section-divider">
+
+<div class="feature-grid">
 
 <div class="liquid-grass-card" aria-label="すぽんさー">
     <div class="liquid-grass-inner">
@@ -634,8 +771,6 @@ small{
         </div>
     </div>
 </div>
-
-<hr>
 
 <div class="liquid-sensitive-box" data-sensitive-box>
 
@@ -727,8 +862,12 @@ small{
 </div>
 </div>
 
+</div>
+
 <hr>
 
+<div class="info-grid">
+<section class="info-panel">
 <h2>個人開発</h2>
 
 <ul>
@@ -754,9 +893,9 @@ small{
 <p>
 など
 </p>
+</section>
 
-<hr>
-
+<section class="info-panel">
 <h2>所有ドメイン</h2>
 
 <div class="profile-window" aria-label="domain.json">
@@ -787,9 +926,9 @@ small{
 <p>
 ちくにー.comは、example@ちくにー.comなどの書式でメールの受信が可能です。
 </p>
+</section>
 
-<hr>
-
+<section class="info-panel info-panel-links">
 <h2>X (Twitter)</h2>
 
 <p>
@@ -797,8 +936,6 @@ small{
 @asahina_morning
 </a>
 </p>
-
-<hr>
 
 <h2>タイピング練習</h2>
 
@@ -808,6 +945,8 @@ small{
 
 <div class="page-actions">
     <a class="liquid-grass-button" href="typing.html">タイピング練習をはじめる</a>
+</div>
+</section>
 </div>
 
 <div class="footer">
