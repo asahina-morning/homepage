@@ -24,29 +24,18 @@ body{
 }
 .wrapper{width:min(100%,960px);margin:auto;}
 h1{text-align:center;margin:0 0 36px;font-size:clamp(1.55rem,3.6vw,2.35rem);}
-.site-list{display:grid;gap:16px;margin:0 0 36px;padding:0;list-style:none;}
+.site-list{margin:0 0 36px;padding-left:1.5rem;list-style:disc;}
+.site-list li{margin:10px 0;}
 .site-list a,
 .site-list .current-page{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:58px;
-    padding:14px 22px;
-    border:1px solid rgba(255,255,255,.42);
-    border-radius:18px;
     color:#171225;
     font-weight:800;
     text-decoration:none;
-    background:linear-gradient(135deg, rgba(255,255,255,.26), rgba(255,255,255,.09));
-    box-shadow:0 12px 30px rgba(62,38,112,.22);
-    backdrop-filter:blur(18px) saturate(1.5);
-    -webkit-backdrop-filter:blur(18px) saturate(1.5);
-    transition:transform .18s ease,box-shadow .18s ease;
 }
-.site-list a:hover{transform:translateY(-2px) scale(1.015);}
+.site-list a:hover{text-decoration:underline;}
 .site-list .current-page{
     color:rgba(23,18,37,.68);
-    width:100%;
+    display:inline-block;
     cursor:default;
     font:inherit;
 }
@@ -57,24 +46,19 @@ h1{text-align:center;margin:0 0 36px;font-size:clamp(1.55rem,3.6vw,2.35rem);}
 @media (max-width:600px){
     body{padding:32px 16px;}
     h1{margin-bottom:26px;font-size:1.55rem;line-height:1.5;}
-    .site-list{gap:12px;margin-bottom:28px;}
-    .site-list a,
-    .site-list .current-page{min-height:54px;}
+    .site-list{margin-bottom:28px;padding-left:1.2rem;}
 }
 @media (min-width:768px) and (max-width:1199px) and (orientation:portrait){
     body{padding:48px clamp(32px,6vw,64px);}
     .wrapper{max-width:820px;}
-    .site-list{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (min-width:768px) and (max-width:1199px) and (orientation:landscape){
     body{padding:32px clamp(48px,8vw,96px);}
     .wrapper{max-width:1000px;}
-    .site-list{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (min-width:1200px){
     body{padding:clamp(56px,8vh,96px) clamp(80px,10vw,176px);}
     .wrapper{max-width:1000px;}
-    .site-list{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media (min-width:1200px) and (orientation:portrait){
     .wrapper{max-width:860px;}
@@ -97,9 +81,6 @@ h1{text-align:center;margin:0 0 36px;font-size:clamp(1.55rem,3.6vw,2.35rem);}
         min-height:calc(100vh - 40px);
     }
     h1{margin-bottom:28px;}
-    .site-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px);margin:0;}
-    .site-list a,
-    .site-list .current-page{height:100%;min-height:72px;padding:14px 16px;text-align:center;}
 }
 </style>
 </head>
@@ -112,7 +93,7 @@ h1{text-align:center;margin:0 0 36px;font-size:clamp(1.55rem,3.6vw,2.35rem);}
             <li><a href="infographics.pdf" target="_blank" rel="noopener noreferrer">自己紹介（新）</a></li>
             <li><a href="typing.html">タイピング練習</a></li>
             <li><a href="kurege-kinshirei.html">クレゲ禁止令</a></li>
-            <li><button class="current-page" type="button" disabled aria-current="page">サイトマップ（このページ）</button></li>
+            <li class="current-page" aria-current="page">サイトマップ（このページ）</li>
         </ul>
     </nav>
 </main>
