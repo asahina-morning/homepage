@@ -629,9 +629,10 @@ small{
 }
 
 .hero-lead{text-align:center;}
-.feature-grid{display:grid;align-items:start;gap:28px;margin:0;}
+.feature-grid{display:grid;grid-template-columns:minmax(0,760px);justify-content:center;align-items:start;gap:28px;margin:0;}
     .feature-grid > .liquid-grass-card,
     .feature-grid > .liquid-sensitive-box{width:100%;height:auto;min-width:0;align-self:start;margin:0;}
+    .feature-grid > .liquid-grass-card{max-width:620px;justify-self:center;}
 .info-grid{display:grid;gap:24px;margin:0;}
 .info-panel{
     min-width:0;
@@ -649,31 +650,25 @@ small{
     .wrapper{width:100%;max-width:none;}
     .hero-section{
         display:grid;
-        grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr);
+        grid-template-columns:minmax(clamp(420px,52vw,560px),1.2fr) minmax(240px,1fr);
         align-items:center;
         gap:clamp(28px,5vw,80px);
     }
-    .hero-primary h1{text-align:left;margin-bottom:22px;}
+    .hero-primary h1{text-align:left;margin-bottom:22px;white-space:nowrap;}
     .hero-lead{text-align:left;}
     .hero-copy .page-actions{justify-content:flex-start;margin:22px 0 0;}
     .hero-profile{width:100%;max-width:none;margin:0;}
     .hero-profile pre[class*="language-"]{max-width:none;}
     .section-divider{margin:28px 0;}
-    .feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,42px);}
-    .feature-grid > .liquid-grass-card,
-    .feature-grid > .liquid-sensitive-box{max-width:none;}
+    .feature-grid{grid-template-columns:minmax(0,760px);gap:clamp(20px,3vw,42px);}
     .feature-grid .profile-window,
     .feature-grid pre[class*="language-"]{max-width:none;}
-    .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-    .info-panel-links{grid-column:1 / -1;}
+    .info-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(20px,2.4vw,36px);}
     .footer{margin-top:34px;}
 }
 
 @media (min-width:1200px) and (orientation:landscape){
     body{padding:28px clamp(28px,3vw,56px);}
-    .hero-section{grid-template-columns:minmax(360px,.8fr) minmax(520px,1.2fr);}
-    .info-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
-    .info-panel-links{grid-column:auto;}
 }
 
 @media (min-width:1200px) and (orientation:portrait){
@@ -691,6 +686,13 @@ small{
     max-width:100%;
     color:inherit;
     text-decoration:none;
+}
+button.glass-button-link{
+    appearance:none;
+    border:0;
+    padding:0;
+    background:transparent;
+    cursor:pointer;
 }
 .glass-button-link sv-liquid-glass{
     display:block;
@@ -755,17 +757,8 @@ body{padding-bottom:120px;}
     filter:drop-shadow(0 3px 5px rgba(0,0,0,.2));
     transition:transform .18s ease;
 }
-.music-app-icon{
-    display:grid;
-    place-items:center;
-    overflow:hidden;
-    background:linear-gradient(145deg,#ff6677,#fb1741 72%,#e90035);
-}
-.music-app-icon img{width:72%;height:72%;object-fit:contain;filter:none;border-radius:0;}
 .dock-app:hover img,
-.dock-app:hover .music-app-icon,
-.dock-app:focus-visible img,
-.dock-app:focus-visible .music-app-icon{transform:translateY(-5px) scale(1.05);}
+.dock-app:focus-visible img{transform:translateY(-5px) scale(1.05);}
 .dock-app:focus-visible{outline:2px solid #fff;outline-offset:3px;}
 .dock-app[aria-pressed="true"]::after{
     position:absolute;
@@ -795,7 +788,11 @@ body{padding-bottom:120px;}
 }
 .dock-app:hover .dock-label,
 .dock-app:focus-visible .dock-label{transform:translate(-50%,0);opacity:1;}
-#music-view{
+
+#pages-view,
+#keynote-view,
+#music-view,
+#journal-view{
     position:fixed;
     z-index:1;
     inset:0;
@@ -808,7 +805,80 @@ body{padding-bottom:120px;}
     font-family:inherit;
     line-height:1.9;
 }
-#music-view[hidden]{display:none;}
+#pages-view[hidden],
+#keynote-view[hidden],
+#music-view[hidden],
+#journal-view[hidden]{display:none;}
+.pages-view-header{width:min(100%,1040px);margin:0 auto 32px;}
+.pages-view-header h1{margin:0;font-size:clamp(1.7rem,3vw,2.5rem);text-align:center;}
+.pages-sheet{width:min(100%,980px);margin:0 auto;}
+.pages-gallery{display:grid;grid-template-columns:1fr;gap:26px;}
+.pages-gallery img{
+    display:block;
+    width:100%;
+    height:auto;
+    margin:0;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.24);
+    box-shadow:0 18px 42px rgba(0,0,0,.24);
+    background:rgba(30,24,50,.18);
+}
+.keynote-sheet{width:min(100%,980px);margin:0 auto;}
+.keynote-gallery{display:block;width:100%;}
+.keynote-gallery img{display:block;width:100%;height:auto;margin:0;border:0;border-radius:12px;}
+.keynote-actions{margin-top:24px;}
+.keynote-pdf-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    padding:12px 24px;
+    border:1px solid rgba(255,255,255,.48);
+    border-radius:999px;
+    background:rgba(255,255,255,.18);
+    box-shadow:0 12px 30px rgba(62,38,112,.2),inset 0 1px 0 rgba(255,255,255,.24);
+    color:#fff;
+    font:inherit;
+    font-weight:700;
+    text-decoration:none;
+    backdrop-filter:blur(18px) saturate(1.4);
+    -webkit-backdrop-filter:blur(18px) saturate(1.4);
+}
+.keynote-pdf-button:hover{background:rgba(255,255,255,.28);}
+.pages-archive{
+    margin-top:26px;
+    border:none;
+    border-radius:0;
+    background:transparent;
+    overflow:hidden;
+}
+.pages-archive summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:0;
+    margin:0;
+    cursor:pointer;
+    font-weight:700;
+    list-style:none;
+}
+.pages-archive summary::-webkit-details-marker{display:none;}
+.pages-archive[open] summary{border:none;}
+.pages-archive-caret{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:22px;
+    height:22px;
+    font-size:0.9rem;
+    transition:transform .18s ease;
+}
+.pages-archive[open] .pages-archive-caret{transform:rotate(180deg);}
+.pages-archive-grid{display:grid;grid-template-columns:1fr;gap:18px;padding:12px 0 0;}
+.pages-archive-grid img{display:block;width:100%;height:auto;border-radius:12px;border:none;}
+.journal-content-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;}
+.journal-content-grid > section{min-width:0;}
 .music-view-header{width:min(100%,1040px);margin:0 auto 52px;}
 .music-view-title{margin:0;font-size:clamp(1.55rem,3.6vw,2.35rem);text-align:center;}
 .music-player{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);align-items:center;gap:clamp(28px,6vw,72px);width:min(100%,900px);margin:auto;}
@@ -830,17 +900,27 @@ body[data-active-app="music"]{overflow:hidden;}
     body{padding-bottom:110px;}
     .dock-bar{gap:8px;padding:8px 10px;border-radius:21px;}
     .dock-app{width:58px;height:58px;}
-    .dock-app img,.music-app-icon{width:50px;height:50px;border-radius:12px;}
-    .dock-app .music-app-icon img{width:72%;height:72%;border-radius:0;filter:none;}
+    .dock-app img{width:50px;height:50px;border-radius:12px;}
+    .pages-view-header{margin-bottom:20px;}
+    .pages-gallery{gap:18px;}
+    .pages-archive-grid{padding:12px 0 0;gap:12px;}
+    .keynote-pdf-button{width:100%;}
     #music-view{padding:28px 20px 110px;}
+    #journal-view{padding:28px 20px 110px;}
     .music-view-header{margin-bottom:30px;}
     .music-player{grid-template-columns:minmax(0,1fr);gap:24px;width:min(100%,340px);}
     .music-artwork{width:min(100%,260px);margin:auto;border-radius:14px;}
     .music-track-artist{margin-bottom:20px;}
     .music-connect-note{margin-top:24px;}
 }
+@media (min-width:980px){
+    .pages-gallery{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media (min-width:960px) and (orientation:landscape){
+    .journal-content-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
 @media (prefers-reduced-motion:reduce){
-    .dock-app img,.music-app-icon,.dock-label{transition:none;}
+    .dock-app img,.dock-label{transition:none;}
 }
 
 </style>
@@ -881,20 +961,12 @@ body[data-active-app="music"]{overflow:hidden;}
         太丸フォント制作中
         </p>
 
-        <p>誕生日：東雲つむぎ（神無月２７）</p>
+        <p>誕生日：東雲つむぎ・望月穂波（神無月２７）</p>
         <p>いのはらこぼしみたいに生きたい。</p>
         <p>
         <span class="fake-link">#おしっこにおーがずむを伴う人と繋がりたい</span>
         </p>
 
-        <div class="page-actions">
-            <a class="glass-button-link" href="kurege-kinshirei.html">
-                <sv-liquid-glass styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"クレゲ禁止令","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
-            </a>
-            <a class="glass-button-link" href="infographics.pdf" target="_blank" rel="noopener noreferrer">
-                <sv-liquid-glass styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"自己紹介（新）","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
-            </a>
-        </div>
     </div>
 </header>
 
@@ -929,89 +1001,6 @@ body[data-active-app="music"]{overflow:hidden;}
             <p class="liquid-grass-text">私一言：今日はもう寝るよこのあと何か投稿したら🔞と返信してねの人</p>
         </div>
     </div>
-</div>
-
-<div class="liquid-sensitive-box" data-sensitive-box>
-
-    <div class="liquid-age-gate" data-sensitive-gate>
-        <div class="liquid-age-content">
-            <h2 class="liquid-age-title">えっちだよ</h2>
-
-            <p class="liquid-age-text">
-                この枠にはあんなことやこんなことが書かれています。<br>
-                この枠を開いたまま席を離れると大変なことになる可能性があります。<br>
-                18歳未満の訪問者の方は直ちに「かくす」をクリックして頂くか、<br>
-                周囲に誰もいないのを確認の上、こっそりと自己責任でご覧ください。<br>
-                とてもキモイ内容が含まれていますが、見る価値はないです。
-            </p>
-
-            <div class="liquid-age-actions">
-                <sv-liquid-glass role="button" tabindex="0" aria-label="かくす" data-sensitive-hide styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"かくす","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
-                <sv-liquid-glass role="button" tabindex="0" aria-label="みる" data-sensitive-show styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"みる","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
-            </div>
-        </div>
-    </div>
-
-    <div class="liquid-hidden-message" data-sensitive-hidden-message hidden>
-        <p>この枠は非表示になりました。リロードで再表示可能です。</p>
-    </div>
-
-    <div class="liquid-real-content" data-sensitive-content hidden>
-
-        <h2>ちくにー</h2>
-
-        <div class="profile-window" aria-label="ちくにーの記録">
-            <div class="profile-window-bar">
-                <span class="profile-window-dot red"></span>
-                <span class="profile-window-dot yellow"></span>
-                <span class="profile-window-dot green"></span>
-            </div>
-
-<pre><code class="language-json">{
-  "since": "2023-08-09",
-  "frequency": "きまぐれ",
-  "favorite": "催眠・指示音声",
-  "status": "追求中",
-  "bug": "たまにイきしぬ"
-}</code></pre>
-        </div>
-
-        <p>
-            もういってる♡いってるからいってるからいってるから♡♡♡♡♡<br>
-            いくいくいくっ♡♡♡ん゛ッ♡んん゛～～～～ッッッ♡♡♡♡♡（連続絶頂）
-        </p>
-
-    <h2>これまでのちくにー成績のほんの一部</h2>
-
-    <p>
-    集計システム稼働開始日：2026-04-20<br>
-    </p>
-
-    <div class="profile-window" aria-label="成績">
-        <div class="profile-window-bar">
-            <span class="profile-window-dot red"></span>
-            <span class="profile-window-dot yellow"></span>
-            <span class="profile-window-dot green"></span>
-        </div>
-
-    <pre><code class="language-json">{
-    "summary": {
-        "last_date": "2026-08-05",
-        "total_count": "114回"
-    },
-    "rank": {
-        "極虹": "8回（7.0%）",
-        "極": "5回（4.4%）",
-        "秀": "7回（6.1%）",
-        "優": "13回（11.4%）",
-        "良": "5回（4.4%）",
-        "可": "4回（3.5%）",
-        "不可": "3回（2.6%）",
-        "なし": "69回（60.5%）"
-    }
-    }</code></pre>
-    </div>
-</div>
 </div>
 
 </div>
@@ -1113,6 +1102,45 @@ xn--y8j9a5a20c.comと乳力してね
 
 </main>
 
+<main id="pages-view" data-app-view="pages" aria-label="Pages" hidden>
+    <header class="pages-view-header">
+        <h1>クレゲ禁止令</h1>
+    </header>
+
+    <section class="pages-sheet" aria-label="クレゲ禁止令の画像">
+        <div class="pages-gallery">
+            <img src="ピン留め用1.png" alt="クレゲ禁止令 1">
+            <img src="ピン留め用2.png" alt="クレゲ禁止令 2">
+        </div>
+
+        <details class="pages-archive" aria-label="過去のクレゲ禁止令">
+            <summary>
+                <span>過去のクレゲ禁止令</span>
+                <span class="pages-archive-caret" aria-hidden="true">▽</span>
+            </summary>
+            <div class="pages-archive-grid">
+                <img src="ピン留め用.png" alt="過去のクレゲ禁止令 旧画像">
+            </div>
+        </details>
+    </section>
+</main>
+
+<main id="keynote-view" data-app-view="keynote" aria-label="Keynote" hidden>
+    <header class="pages-view-header">
+        <h1>自己紹介</h1>
+    </header>
+    <section class="keynote-sheet" aria-label="自己紹介の画像">
+        <div class="keynote-gallery pages-gallery">
+            <img src="infographics.png" alt="自己紹介インフォグラフィック">
+        </div>
+        <div class="page-actions keynote-actions">
+            <a class="keynote-pdf-button" href="infographics.pdf" target="_blank" rel="noopener noreferrer">
+                ＰＤＦで見る
+            </a>
+        </div>
+    </section>
+</main>
+
 <main id="music-view" data-app-view="music" data-status-url="https://api.xn--y8j9a5a20c.com/api/spotify" aria-label="Apple Music" hidden>
     <header class="music-view-header">
         <h1 class="music-view-title">妃菜の再生中の曲</h1>
@@ -1134,16 +1162,102 @@ xn--y8j9a5a20c.comと乳力してね
     <p class="music-connect-note" id="music-connect-note">再生状況に接続中</p>
 </main>
 
+<main id="journal-view" data-app-view="journal" aria-label="Journal" hidden>
+    <div class="liquid-sensitive-box" data-sensitive-box>
+        <div class="liquid-age-gate" data-sensitive-gate>
+            <div class="liquid-age-content">
+                <h2 class="liquid-age-title">えっちだよ</h2>
+                <p class="liquid-age-text">
+                    この枠にはあんなことやこんなことが書かれています。<br>
+                    この枠を開いたまま席を離れると大変なことになる可能性があります。<br>
+                    18歳未満の訪問者の方は直ちに「かくす」をクリックして頂くか、<br>
+                    周囲に誰もいないのを確認の上、こっそりと自己責任でご覧ください。<br>
+                    とてもキモイ内容が含まれていますが、見る価値はないです。
+                </p>
+                <div class="liquid-age-actions">
+                    <sv-liquid-glass role="button" tabindex="0" aria-label="かくす" data-sensitive-hide styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"かくす","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
+                    <sv-liquid-glass role="button" tabindex="0" aria-label="みる" data-sensitive-show styles='{"style":{"roundness":60,"padding_x":1.5,"padding_y":0.8},"text":{"content":"みる","edit":false,"font_family":"Zen Maru Gothic","size_weight":500,"font_size":1},"color":{"accent":"#D7DADD"}}' contrast="light"></sv-liquid-glass>
+                </div>
+            </div>
+        </div>
+        <div class="liquid-hidden-message" data-sensitive-hidden-message hidden>
+            <p>この枠は非表示になりました。リロードで再表示可能です。</p>
+        </div>
+        <div class="liquid-real-content" data-sensitive-content hidden>
+            <div class="journal-content-grid">
+                <section>
+                    <h2>ちくにー</h2>
+                    <div class="profile-window" aria-label="ちくにーの記録">
+                        <div class="profile-window-bar">
+                            <span class="profile-window-dot red"></span>
+                            <span class="profile-window-dot yellow"></span>
+                            <span class="profile-window-dot green"></span>
+                        </div>
+                        <pre><code class="language-json">{
+  "since": "2023-08-09",
+  "frequency": "きまぐれ",
+  "favorite": "催眠・指示音声",
+  "status": "追求中",
+  "bug": "たまにイきしぬ"
+}</code></pre>
+                    </div>
+                    <p>
+                        もういってる♡いってるからいってるからいってるから♡♡♡♡♡<br>
+                        いくいくいくっ♡♡♡ん゛ッ♡んん゛～～～～ッッッ♡♡♡♡♡
+                    </p>
+                </section>
+                <section>
+                    <h2>これまでのちくにー成績のほんの一部</h2>
+                    <p>集計システム稼働開始日：2026-04-20<br></p>
+                    <div class="profile-window" aria-label="成績">
+                        <div class="profile-window-bar">
+                            <span class="profile-window-dot red"></span>
+                            <span class="profile-window-dot yellow"></span>
+                            <span class="profile-window-dot green"></span>
+                        </div>
+                        <pre><code class="language-json">{
+    "summary": {
+        "last_date": "2026-08-05",
+        "total_count": "114回"
+    },
+    "rank": {
+        "極虹": "8回（7.0%）",
+        "極": "5回（4.4%）",
+        "秀": "7回（6.1%）",
+        "優": "13回（11.4%）",
+        "良": "5回（4.4%）",
+        "可": "4回（3.5%）",
+        "不可": "3回（2.6%）",
+        "なし": "69回（60.5%）"
+    }
+}</code></pre>
+                </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
 <nav class="dock-bar" aria-label="Dock">
     <button class="dock-app" type="button" data-app-button="home" aria-label="Finder" aria-pressed="true" title="Finder">
         <img src="https://raw.githubusercontent.com/lucasromerodb/liquid-glass-effect-macos/refs/heads/main/assets/finder.png" alt="">
         <span class="dock-label" aria-hidden="true">Finder</span>
     </button>
+    <button class="dock-app" type="button" data-app-button="pages" aria-label="Pages" aria-pressed="false" title="Pages">
+        <img src="pages-icon.png" alt="">
+        <span class="dock-label" aria-hidden="true">Pages</span>
+    </button>
+    <button class="dock-app" type="button" data-app-button="keynote" aria-label="Keynote" aria-pressed="false" title="Keynote">
+        <img src="keynote-icon.png" alt="">
+        <span class="dock-label" aria-hidden="true">Keynote</span>
+    </button>
     <button class="dock-app" type="button" data-app-button="music" aria-label="Apple Music" aria-pressed="false" title="Apple Music">
-        <span class="music-app-icon" aria-hidden="true">
-            <img src="https://cdn.simpleicons.org/applemusic/FFFFFF" alt="">
-        </span>
+        <img src="Apple_Music_icon.svg.webp" alt="" class="music-app-icon">
         <span class="dock-label" aria-hidden="true">Apple Music</span>
+    </button>
+    <button class="dock-app" type="button" data-app-button="journal" aria-label="Journal" aria-pressed="false" title="Journal">
+        <img src="journal-icon.png" alt="">
+        <span class="dock-label" aria-hidden="true">Journal</span>
     </button>
 </nav>
 
@@ -1205,6 +1319,25 @@ document.querySelectorAll("[data-app-button]").forEach(function(button){
         });
 
         document.body.dataset.activeApp = selectedApp;
+    });
+});
+
+document.querySelectorAll("[data-app-back]").forEach(function(button){
+    button.addEventListener("click", function(){
+        const homeButton = document.querySelector('[data-app-button="home"]');
+        if(!homeButton){
+            return;
+        }
+
+        document.querySelectorAll("[data-app-view]").forEach(function(view){
+            view.hidden = view.getAttribute("data-app-view") !== "home";
+        });
+
+        document.querySelectorAll("[data-app-button]").forEach(function(appButton){
+            appButton.setAttribute("aria-pressed", String(appButton === homeButton));
+        });
+
+        document.body.dataset.activeApp = "home";
     });
 });
 
